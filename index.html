@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Benford's Law</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <form id="form">
+    <div>
+      <textarea id="data" rows="8" cols="40" placeholder="Paste data here..."></textarea>
+    </div>
+      
+    <div>
+      <button id="runBtn" type="button">Run Test (Mock Data)</button>
+    </div>
+  </form>
+  
+  <div id="result">
+    <div id="stats">
+      <p>Start<span id="starting"></span></p>
+      <p>Current<span id="current"></span></p>
+      <p>Growth Rate<span id="rate"></span></p>
+      <p>Dataset<span id="size"></span></p>
+    </div>
+    
+    <p id="duration"></p>
+
+    <table id="dist">
+      <tr>
+        <th>First Digit</th>
+        <th>Frequency</th>
+        <th>% Occurrence</th>
+        <th>% Expected</th>
+      </tr>
+    </table>
+    
+    <svg width="300" height="300" id="svg"></svg>
+  </div>
+  
+  <script src="main.js"></script>
+</body>
+</html>
