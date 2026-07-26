@@ -4,11 +4,14 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Benford's Law</title>
+  <title>Skaylar</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <header>
+    <h1>Skaylar</h1>
+  </header>
   <form id="form">
     <div>
       <textarea id="data" rows="8" cols="40" placeholder="Paste data here..."></textarea>
@@ -38,7 +41,13 @@
       </tr>
     </table>
     
-    <svg width="300" height="300" id="svg"></svg>
+    <div id="graph">
+      <p>
+      <span class="label" id="expected_label">Expected</span>
+      <span class="label" id="actual_label">Actual</span>
+      </p>
+      <svg width="300" height="300" id="svg"></svg>
+    </div>
   </div>
   
   <script src="main.js"></script>

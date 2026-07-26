@@ -17,7 +17,7 @@ const PARAMS = {
     startingValue: 90,
     currentValue: 0,
     growthRate: 10,
-    runs: 5000,
+    runs: 7000,
     externalData : []
 }
 
@@ -82,11 +82,13 @@ function log(elementID) {
     document.querySelector(`#${elementID}_occ`).textContent = FREQUENCY[elementID].occurrence;
 }
 
-function plot() {
-    const keys = Object.keys(FREQUENCY);
+function plot(obj) {
+    const isArray = Array.isArray(obj);
+    const keys = isArray? obj.map((_, i) => i) : Object.keys(obj);
     const values = keys.map((k, i) => {
-        const x = (((i+1)/9) * 300).toFixed(2)
-        const y = (300 - (FREQUENCY[k].occurrence / 40) * 300).toFixed(2);
+        const val = isArray? obj[k] : obj[k].occurrence;
+        const x = (((i + 1) / 9) * 300).toFixed(2)
+        const y = (300 - (val / 40) * 300).toFixed(2);
 
         return `${x} ${y}`;
     });
@@ -94,7 +96,7 @@ function plot() {
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.setAttribute("d", `M ${values[0]} C ${values.slice(1).join(' ')}`);
     path.setAttribute("fill", "none");
-    path.setAttribute("stroke", "black");
+    path.setAttribute("stroke", obj[0] ? "#5555FF" : "#FF5555");
     path.setAttribute("stroke-width", "3");
     path.setAttribute("stroke-linecap", "round");
     path.setAttribute("stroke-linejoin", "round");
@@ -103,7 +105,7 @@ function plot() {
 }
 
 function runTest() {
-   // console.log(params)
+    plot(EXPECTED);
     performance.mark("start");
 
     const finish = () => {
@@ -121,7 +123,7 @@ function runTest() {
     if (PARAMS.externalData.length > 0) {
         //setTimeout(() => {
             testBenford(PARAMS.externalData);
-            plot();
+            plot(FREQUENCY);
             finish();
         //});
     } else {
@@ -131,7 +133,7 @@ function runTest() {
                 testBenford(PARAMS.externalData);
                 completed++;
                 if (completed === PARAMS.runs) {
-                    plot();
+                    plot(FREQUENCY);
                     finish();
                 }
            // }, 1000);
