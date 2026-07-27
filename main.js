@@ -56,6 +56,10 @@ function testBenford(dataset) {
 function updateCurrentValue(val) {
     if (PARAMS.externalData.length > 0) {
         for (let d of PARAMS.externalData) {
+            if (d === 0) {
+                continue;
+            }
+            
             PARAMS.currentValue = d;
             
             NUMBERS.push(+PARAMS.currentValue);
@@ -168,7 +172,7 @@ data.oninput = function(e) {
         runBtn.textContent = "Run Test";
         PARAMS.startingValue = arrayFromInput[0];
         PARAMS.externalData = arrayFromInput;
-        PARAMS.growthRate = "-";
+        PARAMS.growthRate = "N/A";
     } else {
         runBtn.textContent = "Run Test (Mock Data)";
         PARAMS.externalData = [];
