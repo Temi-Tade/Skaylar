@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lexend">
   <title>Skaylar</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -32,14 +33,22 @@
     
     <p id="duration"></p>
 
-    <table id="dist">
-      <tr>
-        <th>First Digit</th>
-        <th>Frequency</th>
-        <th>% Occurrence</th>
-        <th>% Expected</th>
-      </tr>
-    </table>
+    <div id="dist-wrap">
+      <table id="dist">
+        <tr>
+          <th>First Digit</th>
+          <th>Frequency</th>
+          <th>% Occurrence</th>
+          <th>% Expected</th>
+          <th>Deviation</th>
+        </tr>
+      </table>
+      
+      <div id="interpretation">
+        <p id="maxDev"></p>
+        <p id="chiSquare"></p>
+      </div>
+    </div>
     
     <div id="graph">
       <p>
@@ -47,6 +56,11 @@
       <span class="label" id="actual_label">Actual</span>
       </p>
       <svg width="300" height="300" id="svg"></svg>
+    </div>
+    
+    <div id="actions">
+      <!--<button id="saveBtn">Save Test</button>-->
+      <button id="runNewBtn">Run New Test</button>
     </div>
   </div>
   

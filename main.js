@@ -14,7 +14,7 @@ const FREQUENCY = {
 };
 const EXPECTED = [30.10, 17.61, 12.49, 9.69, 7.92, 6.69, 5.80, 5.12, 4.58];
 const PARAMS = {
-    startingValue: 90,
+    startingValue: 10,
     currentValue: 0,
     growthRate: 10,
     runs: 7000,
@@ -28,7 +28,8 @@ function init() {
     starting.textContent = PARAMS.startingValue;
     current.textContent = PARAMS.currentValue;
     rate.textContent = `${PARAMS.growthRate}%`;
-    size.textContent = PARAMS.externalData.length > 0 ? PARAMS.externalData.length : PARAMS.runs; 
+    size.textContent = PARAMS.externalData.length > 0 ? PARAMS.externalData.length : PARAMS.runs;
+    //PARAMS.externalData = []
     
     DIGITS.map((d, i) => {
         dist.innerHTML += `
@@ -37,6 +38,7 @@ function init() {
                 <td id='${d}_freq'>0</td>
                 <td id='${d}_occ'>0</td>
                 <td id='${d}_exp'>${EXPECTED[i].toFixed(2)}</td>
+                <td id='${d}_dev' class='dev'>0</td>
             </tr>
         `;
     })
@@ -80,6 +82,7 @@ function log(elementID) {
 
     document.querySelector(`#${elementID}_freq`).textContent = FREQUENCY[elementID].frequency;
     document.querySelector(`#${elementID}_occ`).textContent = FREQUENCY[elementID].occurrence;
+    document.querySelector(`#${elementID}_dev`).textContent = (FREQUENCY[elementID].occurrence - EXPECTED[Object.keys(FREQUENCY).indexOf(elementID)]).toFixed(2);
 }
 
 function plot(obj) {
@@ -104,39 +107,54 @@ function plot(obj) {
     svg.appendChild(path)
 }
 
+function calculateChiSquare() {
+    let chiSquareValue = 0;
+    for(let i = 0; i < 9; i++) {
+        const expectedOccurence = (EXPECTED[i]/100) * NUMBERS.length;
+        const actualOccurence = FREQUENCY[DIGITS[i]].frequency;
+        
+        chiSquareValue += ((actualOccurence - expectedOccurence)**2) / expectedOccurence;
+    }
+    return chiSquareValue.toFixed(2);
+}
+
+function interpretResult() {
+    const deviations = [...document.querySelectorAll(".dev")].map(d => +d.textContent);
+    maxDev.textContent = `Max Deviation: ${Math.max(...deviations)}`;
+    chiSquare.textContent = `Chi-square: ${calculateChiSquare()}`;
+}
+
 function runTest() {
     plot(EXPECTED);
     performance.mark("start");
 
     const finish = () => {
-      performance.mark("end"); // <-- moved here
-      performance.measure('duration', 'start', 'end');
+        performance.mark("end"); // <-- moved here
+        performance.measure('duration', 'start', 'end');
       
-      duration.textContent = `Analysis completed in ${(performance.getEntriesByName('duration')[0].duration/1000).toFixed(2)}s`;
-      form.style.display = "none";
-      result.style.display = "block";
+        duration.textContent = `Analysis completed in ${(performance.getEntriesByName('duration')[0].duration/1000).toFixed(2)}s`;
+        form.style.display = "none";
+        result.style.display = "block";
       
-      performance.clearMarks();
-      performance.clearMeasures();
+        performance.clearMarks();
+        performance.clearMeasures();
     }
     
     if (PARAMS.externalData.length > 0) {
-        //setTimeout(() => {
-            testBenford(PARAMS.externalData);
-            plot(FREQUENCY);
-            finish();
-        //});
+        testBenford(PARAMS.externalData);
+        plot(FREQUENCY);
+        finish();
+        interpretResult();
     } else {
         let completed = 0;
         for (let i = 0; i < PARAMS.runs; i++) {
-           // setTimeout(() => {
-                testBenford(PARAMS.externalData);
-                completed++;
-                if (completed === PARAMS.runs) {
-                    plot(FREQUENCY);
-                    finish();
-                }
-           // }, 1000);
+            testBenford(PARAMS.externalData);
+            completed++;
+            if (completed === PARAMS.runs) {
+                plot(FREQUENCY);
+                finish();
+                interpretResult();
+            }
         }
     }
 }
@@ -145,15 +163,17 @@ data.oninput = function(e) {
     const input = e.target.value.trim();
     const formattedInput = input.endsWith(",") ? input.substring(0, input.length - 1) : input;
     const arrayFromInput = formattedInput.split(/[,\s\n]+/).map(v => v.trim() === "" ? "" : +v);
-    console.log(arrayFromInput)
-    
+
     if (arrayFromInput.length > 0 && arrayFromInput[0] !== "") {
         runBtn.textContent = "Run Test";
         PARAMS.startingValue = arrayFromInput[0];
         PARAMS.externalData = arrayFromInput;
-        PARAMS.growthRate = "-"
+        PARAMS.growthRate = "-";
     } else {
         runBtn.textContent = "Run Test (Mock Data)";
+        PARAMS.externalData = [];
+        PARAMS.startingValue = 10;
+        PARAMS.growthRate = 10;
     }
 }
 
@@ -162,4 +182,20 @@ runBtn.onclick = function() {
     runBtn.disabled = true;
     init();
     runTest();
+}
+
+runNewBtn.onclick = function() {
+    runBtn.textContent = data.value.trim().length > 0 ? "Run Test" : "Run Test (Mock Data)";
+    runBtn.disabled = false;
+    form.style.display = "flex";
+    result.style.display = "none";
+    [...document.querySelectorAll("tr")].slice(1).forEach(tr => dist.removeChild(tr.parentElement));
+    svg.innerHTML = "";
+    NUMBERS.splice(0, NUMBERS.length);
+    Object.keys(FREQUENCY).forEach(f => {
+        FREQUENCY[f].occurrence = 0;
+        FREQUENCY[f].frequency = 0;
+    });
+    maxDev.textContent = "";
+    chiSquare.textContent = "";
 }

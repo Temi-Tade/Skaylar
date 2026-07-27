@@ -1,17 +1,17 @@
 # Skaylar
 ### Find what doesn't add up
-Skaylar is a simple, offline web tool for forensic data analysis using Benford's Law. 
-Paste your transaction data or upload a CSV, click analyze, and instantly see if there are anomalies.
+Skaylar is a simple, web-based tool for forensic data analysis using Benford's Law to analyze and visualize first-digit distributions in a dataset. 
+Paste the data, click Run Test, and instantly see if there are anomalies.
 
 ---
 
 ## What is Benford's Law?
 In real financial data, the digit "1" appears as the first digit ~30% of the time, "2" ~18%, etc.
 If your data deviates too much, it can signal fraud, errors, or manipulation.
-Skaylar checks this for you in 2 seconds.
+Skaylar checks this for you in seconds.
 
 ## How to Use
-### 1. Download
+### 1. Visit the [website](https://temi-tade.github.io/Skaylar) or download the repo (offline use): 
 `git clone https://github.com/Temi-Tade/Skaylar.git`  
 or click `Code > Download ZIP` and extract files on your computer.
 
@@ -26,6 +26,6 @@ Works in Chrome, Edge, Firefox, and on mobile.
 4.  Click `Run Mock Data` to try it with sample data first
 
 ## What You Get
-- **Results Table**: Expected % vs Actual % for digits 1-9
+- **Results Table**: Expected % vs Actual % for digits 1-9 and deviations
 - **Graph**: Visual comparison to spot deviations fast
-- **Risk Flag**: Low, Medium, or High based on deviation
+- **Analytics**: Max deviation and Chi square value.

@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: Lexend, sans-serif;
 }
 
 *:focus {
@@ -14,6 +15,7 @@
 
 html{
     height: 100dvh;
+    font-family: Lexend, sans-serif;
 }
 
 body {
@@ -55,15 +57,26 @@ button{
     display: none;
 }
 
+#dist-wrap {
+    width: calc(100% - .35rem);
+    margin: auto;
+    overflow-x: auto;
+}
+
 table {
+    margin: auto;
+    margin-top: .5rem;
     width: 100%;
     border-collapse: collapse;
 }
 
 td, th {
-    width: 25%;
     text-align: center;
     padding: .35rem;
+}
+
+th {
+    font-size: .85rem;
 }
 
 tbody:nth-child(even) {
@@ -99,7 +112,7 @@ svg {
 
 #graph p{
     position: absolute;
-    right: 0;
+    right: .125rem;
 }
 
 .label::before{
@@ -116,4 +129,16 @@ svg {
 
 #actual_label::before {
     border-color: #FF5555;
+}
+
+#actions {
+    margin: 1rem auto;
+    display: flex;
+    justify-content: center;
+}
+
+#interpretation {
+    margin-top: .25rem;
+    display: flex;
+    justify-content: space-around;
 }
