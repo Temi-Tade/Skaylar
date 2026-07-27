@@ -178,10 +178,22 @@ data.oninput = function(e) {
 }
 
 runBtn.onclick = function() {
-    runBtn.textContent = "Running...";
-    runBtn.disabled = true;
-    init();
-    runTest();
+    try {
+        if (data.value.trim().length > 0) {
+            const arrayFromInput = data.value.trim().split(/[,\s\n]+/).map(v => v.trim() === "" ? "" : +v);
+            if (arrayFromInput.some(e => isNaN(+e))) {
+                alert("An error occured: Invalid input");
+                return;
+            }
+        }
+        
+        runBtn.textContent = "Running...";
+        runBtn.disabled = true;
+        init();
+        runTest();
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 runNewBtn.onclick = function() {
