@@ -4,7 +4,9 @@ Skaylar is a simple, web-based tool for forensic data analysis using Benford's L
 Paste the data, click Run Test, and instantly see if there are anomalies.
 
 <img width="720" height="1264" alt="1001548566" src="https://github.com/user-attachments/assets/fe5a3655-4b7d-4c9a-8821-910684c53f58" />
+
 > Benford's Law showing population of countries (1970, 1980, 1990, 2000, 2010, 2015, 2020, 2022)
+
 ---
 
 ## What is Benford's Law?
@@ -35,7 +37,9 @@ Works in Chrome, Edge, Firefox, and on mobile.
 ---
 
 <img width="720" height="1307" alt="1001549146" src="https://github.com/user-attachments/assets/6bfd0660-b7c4-4b32-b2d4-4ee5ca07767f" />
-> Height distribution (Does not Benford's Law)
+
+> Height distribution (Does not follow Benford's Law)
 
 <img width="720" height="1425" alt="1001548580" src="https://github.com/user-attachments/assets/6b5d9fb9-662d-4cba-9daa-b14e2b1d5583" />
+
 > Fibonacci series (Follows Benford's Law)
