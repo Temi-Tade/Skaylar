@@ -3,6 +3,8 @@
 Skaylar is a simple, web-based tool for forensic data analysis using Benford's Law to analyze and visualize first-digit distributions in a dataset. 
 Paste the data, click Run Test, and instantly see if there are anomalies.
 
+<img width="720" height="1264" alt="1001548566" src="https://github.com/user-attachments/assets/fe5a3655-4b7d-4c9a-8821-910684c53f58" />
+
 ---
 
 ## What is Benford's Law?
@@ -29,3 +31,6 @@ Works in Chrome, Edge, Firefox, and on mobile.
 - **Results Table**: Expected % vs Actual % for digits 1-9 and deviations
 - **Graph**: Visual comparison to spot deviations fast
 - **Analytics**: Max deviation and Chi square value.
+
+<img width="720" height="1307" alt="1001549146" src="https://github.com/user-attachments/assets/6bfd0660-b7c4-4b32-b2d4-4ee5ca07767f" />
+<img width="720" height="1425" alt="1001548580" src="https://github.com/user-attachments/assets/6b5d9fb9-662d-4cba-9daa-b14e2b1d5583" />
