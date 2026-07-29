@@ -23,7 +23,7 @@ const PARAMS = {
     runs: undefined,
     externalData : []
 };
-const MOCK_DATA_PROMPT = "Mock dataset selected. Click 'Run Test'..."
+const MOCK_DATA_PROMPT = "Mock dataset selected. Click 'Run Test'...";
 
 function init() {
     //NUMBERS.push(PARAMS.startingValue);
@@ -173,22 +173,18 @@ function runTest() {
 }
 
 async function selectDataset() {
+    alert()
     let datasets = "";
-    const fileNames = await fetch("./data/")
-        .then(res => res.text())
+    const files = await fetch("./data/manifest.json")
+        .then(res => res.json())
         .then(data => data);
-    
-        temp.innerHTML = fileNames;
-        
-        const files = [...temp.querySelectorAll('.filename')];
-        const sizes = [...temp.querySelectorAll('.filesize')];
         
         files.forEach((f,i) => {
             datasets += `
             <li>
                 <i data-lucide="table" width="12"></i>
-                <button class="set" id="${files[i].innerHTML}">
-                    ${files[i].innerHTML} ${sizes[i].innerHTML}
+                <button class="set" id="${files[i]}">
+                    ${files[i]}
                 </button>
             </li>`
         });
