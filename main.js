@@ -173,7 +173,6 @@ function runTest() {
 }
 
 async function selectDataset() {
-    alert()
     let datasets = "";
     const files = await fetch("./data/manifest.json")
         .then(res => res.json())
