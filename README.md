@@ -24,7 +24,7 @@ Double-click `index.html`
 Works in Chrome, Edge, Firefox, and on mobile.
 
 ### 3. Analyze
-1.  Paste your numbers in the box. Numbers should be delimited by commas, spaces or new lines
+1.  Paste your numbers in the box or select a .json dataset. Numbers in the textbox should be delimited by commas, spaces or new lines
 2.  Click `Run Test`
 3.  View the results table and graph
 4.  Click `Run Mock Data` to try it with sample data first
@@ -43,3 +43,24 @@ Works in Chrome, Edge, Firefox, and on mobile.
 <img width="720" height="1425" alt="1001548580" src="https://github.com/user-attachments/assets/6b5d9fb9-662d-4cba-9daa-b14e2b1d5583" />
 
 > Fibonacci series (Follows Benford's Law)
+
+## Contribute to Skaylar
+Skaylar is open source and is open to contribution from developers, data scientists/analysts, forensic accountants, auditors and anyone interested in making it better.
+
+### Contribution Guidelines 
+- Fork the repo and make your improvements/additions/fixes.
+- Check out the issues tab on the repo if you are confused in where to start from.
+- Create a Pull Request from your forked repo.
+- Your PR will be reviewed and merged accordingly.
+
+> You can also contribute by adding datasets for users to test Skaylar. The datasets are .json files and should strictly follow the format below:
+
+```json
+{
+    "name": "Name of the dataset", // recommended: separate words with underscores 
+    "description": "Description of the dataset",
+    "source": "Verified and official source", // You can put your name if you scrapped tue data yourself 
+    "data": [120, 300] // array of the numbers in the dataset
+}
+
+```

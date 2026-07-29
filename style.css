@@ -3,6 +3,7 @@
     margin: 0;
     box-sizing: border-box;
     font-family: Lexend, sans-serif;
+    transition: .5s;
 }
 
 *:focus {
@@ -28,14 +29,19 @@ header{
     padding: .25rem;
     box-shadow: 0 0 2px #7777;
     background: #FFF;
+    height: 3rem;
 }
 
 form{
-    height:100%;
+    height: calc(100% - 4rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#selectedDataset {
+    margin-bottom: .5rem;
 }
 
 textarea{
@@ -83,7 +89,7 @@ tbody:nth-child(even) {
     background: #ccc7;
 }
 
-svg {
+#graph svg {
     margin: auto;
     display: block;
     border-left: .5px solid;
@@ -141,4 +147,58 @@ svg {
     margin-top: .25rem;
     display: flex;
     justify-content: space-around;
+}
+
+#modalbg {
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(2.75px);
+    display: none;
+    align-items: center;
+}
+
+#modal {
+    background: #FFF;
+    padding: 1rem;
+    width: 80%;
+    margin: auto;
+    box-shadow: 0 0 2px 2px #9997;
+    border-radius: .6rem;
+}
+
+#temp {
+    display: none;
+}
+
+ul#datalist{
+    list-style: none;
+}
+
+#datalist li {
+    padding: .125rem;
+    text-align: left;
+    border-bottom: 1px solid #cccc;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+#datalist li:last-child {
+    border-bottom: 0;
+}
+
+#datalist button {
+    text-align: left;
+    background: transparent;
+    color: #000;
+    padding: .25rem;
+    width: 100%;
+    font-size: .85rem;
+    word-break: none;
+    word-wrap: nowrap;
+    overflow-x: auto;
+}
+
+#datalist button:focus, #datalist button:hover {
+    background: #CCCC;
 }

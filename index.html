@@ -14,16 +14,25 @@
     <h1>Skaylar</h1>
   </header>
   <form id="form">
+    <p id="selectedDataset"></p>
     <div>
-      <textarea id="data" rows="8" cols="40" placeholder="Paste data here..."></textarea>
+      <textarea id="data" rows="8" cols="40" placeholder="No dataset detected. Paste data here or select a dataset..."></textarea>
     </div>
       
     <div>
-      <button id="runBtn" type="button">Run Test (Mock Data)</button>
+      <button id="runBtn" type="button">Select Dataset</button>
     </div>
   </form>
   
   <div id="result">
+    <div id="details">
+      <h3>Dataset</h3>
+      <p>Name<span id="dataset"></span></p>
+      <p>Description<span id="description"></span></p>
+      <p>Source<span id="source"></span></p>
+    </div>
+    
+    <h3>Results</h3>
     <div id="stats">
       <p>Start<span id="starting"></span></p>
       <p>Current<span id="current"></span></p>
@@ -64,6 +73,17 @@
     </div>
   </div>
   
-  <script src="main.js"></script>
+  <div id="modalbg">
+    <div id="modal"></div>
+  </div>
+  
+  <div id="temp"></div>
+  
+  <script src="ui.js"></script>
+  <script defer src="main.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>

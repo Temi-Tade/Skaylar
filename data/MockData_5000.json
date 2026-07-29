@@ -1,0 +1,12 @@
+{
+    "name": "mockData_5000",
+    "description": "Mock Data starting from 10 and increments by 10% 5000 times",
+    "source": "Temiloluwa Akintade",
+    "data": {
+        "startingValue": 10,
+        "currentValue": 0,
+        "growthRate": 10,
+        "runs": 5000,
+        "externalData": []
+    }
+}

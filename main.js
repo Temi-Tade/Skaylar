@@ -14,17 +14,24 @@ const FREQUENCY = {
 };
 const EXPECTED = [30.10, 17.61, 12.49, 9.69, 7.92, 6.69, 5.80, 5.12, 4.58];
 const PARAMS = {
-    startingValue: 10,
-    currentValue: 0,
-    growthRate: 10,
-    runs: 7000,
+    name: undefined,
+    description: undefined,
+    source: undefined,
+    startingValue: undefined,
+    currentValue: undefined,
+    growthRate: undefined,
+    runs: undefined,
     externalData : []
-}
+};
+const MOCK_DATA_PROMPT = "Mock dataset selected. Click 'Run Test'..."
 
 function init() {
     //NUMBERS.push(PARAMS.startingValue);
     PARAMS.currentValue = PARAMS.externalData.length > 0 ? PARAMS.externalData[0] : PARAMS.startingValue;
     
+    dataset.textContent = PARAMS.name || "N/A";
+    description.textContent = PARAMS.description || "N/A";
+    source.textContent = PARAMS.source || "N/A"
     starting.textContent = PARAMS.startingValue;
     current.textContent = PARAMS.currentValue;
     rate.textContent = `${PARAMS.growthRate}%`;
@@ -150,17 +157,65 @@ function runTest() {
         finish();
         interpretResult();
     } else {
-        let completed = 0;
-        for (let i = 0; i < PARAMS.runs; i++) {
-            testBenford(PARAMS.externalData);
-            completed++;
-            if (completed === PARAMS.runs) {
-                plot(FREQUENCY);
-                finish();
-                interpretResult();
+        if (data.value === MOCK_DATA_PROMPT) {
+            let completed = 0;
+            for (let i = 0; i < PARAMS.runs; i++) {
+                testBenford(PARAMS.externalData);
+                completed++;
+                if (completed === PARAMS.runs) {
+                    plot(FREQUENCY);
+                    finish();
+                    interpretResult();
+                }
             }
         }
     }
+}
+
+async function selectDataset() {
+    let datasets = "";
+    const fileNames = await fetch("./data/")
+        .then(res => res.text())
+        .then(data => data);
+    
+        temp.innerHTML = fileNames;
+        
+        const files = [...temp.querySelectorAll('.filename')];
+        const sizes = [...temp.querySelectorAll('.filesize')];
+        
+        files.forEach((f,i) => {
+            datasets += `
+            <li>
+                <i data-lucide="table" width="12"></i>
+                <button class="set" id="${files[i].innerHTML}">
+                    ${files[i].innerHTML} ${sizes[i].innerHTML}
+                </button>
+            </li>`
+        });
+        return datasets;
+}
+
+function importDataset(ds) {
+    PARAMS.name = ds?.name;
+    PARAMS.description = ds?.description;
+    PARAMS.source = ds?.source;
+    
+    const rawData = ds?.data;
+    if (Array.isArray(rawData)) {
+        data.value = rawData.join(", ");
+        PARAMS.externalData = rawData;
+        PARAMS.startingValue = rawData[0];
+        PARAMS.currentValue = 0;
+        PARAMS.growthRate = "N/A";
+    } else {
+        data.value = MOCK_DATA_PROMPT;
+        PARAMS.startingValue = rawData.startingValue;
+        PARAMS.currentValue = rawData.currentValue;
+        PARAMS.growthRate = rawData.growthRate;
+        PARAMS.runs = rawData.runs;
+    }
+    
+    data.readOnly = true;
 }
 
 data.oninput = function(e) {
@@ -181,14 +236,36 @@ data.oninput = function(e) {
     }
 }
 
-runBtn.onclick = function() {
+runBtn.onclick = async function() {
     try {
-        if (data.value.trim().length > 0) {
+        if (data.value.trim().length) {
             const arrayFromInput = data.value.trim().split(/[,\s\n]+/).map(v => v.trim() === "" ? "" : +v);
-            if (arrayFromInput.some(e => isNaN(+e))) {
+            if (arrayFromInput.some(e => isNaN(+e)) && data.value !== MOCK_DATA_PROMPT) {
                 alert("An error occured: Invalid input");
                 return;
             }
+        } else {
+            createModal(`
+                <h3>Datasets</h3>
+                <ul id="datalist">
+                    ${await selectDataset()}
+                </ul>
+            `);
+            
+            [...document.querySelectorAll(".set")].forEach(s => {
+                s.onclick = async function() {
+                    selectedDataset.textContent = `Selected Dataset: ${s.id}`;
+                    await fetch(`./data/${s.id}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        importDataset(data)
+                        closeModal();
+                        runBtn.textContent = "Run Test"
+                    });
+                }
+            })
+            
+            return;
         }
         
         runBtn.textContent = "Running...";
@@ -201,7 +278,8 @@ runBtn.onclick = function() {
 }
 
 runNewBtn.onclick = function() {
-    runBtn.textContent = data.value.trim().length > 0 ? "Run Test" : "Run Test (Mock Data)";
+    history.go(0);
+    /*runBtn.textContent = data.value.trim().length > 0 ? "Run Test" : "Selected Dataset";
     runBtn.disabled = false;
     form.style.display = "flex";
     result.style.display = "none";
@@ -214,4 +292,14 @@ runNewBtn.onclick = function() {
     });
     maxDev.textContent = "";
     chiSquare.textContent = "";
+    data.readonly = false;
+    
+    for (var p in PARAMS) {
+        PARAMS[p] = undefined;
+        if (p === "externalData") {
+            PARAMS.externalData = [];
+        }
+    }
+    
+    console.log(PARAMS)*/
 }
