@@ -59,7 +59,7 @@ Skaylar is open source and is open to contribution from developers, data scienti
 {
     "name": "Name of the dataset", // recommended: separate words with underscores 
     "description": "Description of the dataset",
-    "source": "Verified and official source", // You can put your name if you scrapped tue data yourself 
+    "source": "Verified and official source", // You can put your name if you scrapped the data yourself 
     "data": [120, 300] // array of the numbers in the dataset
 }
 
