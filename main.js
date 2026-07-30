@@ -64,6 +64,7 @@ function updateCurrentValue(val) {
     if (PARAMS.externalData.length > 0) {
         for (let d of PARAMS.externalData) {
             if (d === 0) {
+                NUMBERS.push(d);
                 continue;
             }
             
