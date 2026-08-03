@@ -60,10 +60,16 @@
     </div>
     
     <div id="graph">
-      <p>
-      <span class="label" id="expected_label">Expected</span>
-      <span class="label" id="actual_label">Actual</span>
-      </p>
+      <div id="graph_label">
+        <p>
+          <span class="label" id="actual_label">Actual</span>
+          <span class="label" id="expected_label">Expected</span>
+        </p>
+        
+        <button id="graph_menu">
+          <i data-lucide="ellipsis-vertical" width="16"></i>
+        </button>
+      </div>
       <svg width="300" height="300" id="svg"></svg>
     </div>
     
@@ -77,10 +83,8 @@
     <div id="modal"></div>
   </div>
   
-  <div id="temp"></div>
-  
-  <script src="ui.js"></script>
-  <script defer src="main.js"></script>
+  <script src="ui.js" defer></script>
+  <script src="main.js" defer></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     lucide.createIcons();

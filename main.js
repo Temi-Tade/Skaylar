@@ -24,6 +24,12 @@ const PARAMS = {
     externalData : []
 };
 const MOCK_DATA_PROMPT = "Mock dataset selected. Click 'Run Test'...";
+const GRAPH_DATA = {
+    yZoom: 35, // max expected is ~30.10
+    actualLabelColor: "#FF5555",
+    expectedLabelColor: "#5555FF",
+    yMax: undefined
+}
 
 function init() {
     //NUMBERS.push(PARAMS.startingValue);
@@ -98,20 +104,24 @@ function log(elementID) {
 }
 
 function plot(obj) {
+    let yMax = 0;
+    
     const isArray = Array.isArray(obj);
     const keys = isArray? obj.map((_, i) => i) : Object.keys(obj);
     const values = keys.map((k, i) => {
         const val = isArray? obj[k] : obj[k].occurrence;
         const x = (((i + 1) / 9) * 300).toFixed(2)
-        const y = (300 - (val / 40) * 300).toFixed(2);
+        const y = (300 - (val / GRAPH_DATA.yZoom) * 300).toFixed(2);
+        yMax = (+val > yMax) ? +val : yMax;
 
         return `${x} ${y}`;
     });
     
+    GRAPH_DATA.yMax = yMax + 5;
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.setAttribute("d", `M ${values[0]} C ${values.slice(1).join(' ')}`);
     path.setAttribute("fill", "none");
-    path.setAttribute("stroke", obj[0] ? "#5555FF" : "#FF5555");
+    path.setAttribute("stroke", obj[0] ? GRAPH_DATA.expectedLabelColor : GRAPH_DATA.actualLabelColor);
     path.setAttribute("stroke-width", "3");
     path.setAttribute("stroke-linecap", "round");
     path.setAttribute("stroke-linejoin", "round");
@@ -174,15 +184,23 @@ function runTest() {
 }
 
 async function selectDataset() {
+    createModal("Please wait...");
     let datasets = "";
     const files = await fetch("./data/manifest.json")
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) {
+                createModal("An error occured. Please check your connection and try again.");
+                return;
+            } else {
+                return res.json()
+            }
+        })
         .then(data => data);
         
         files.forEach((f,i) => {
             datasets += `
             <li>
-                <i data-lucide="table" width="12"></i>
+                <i data-="table" width="12"></i>
                 <button class="set" id="${files[i]}">
                     ${files[i]}
                 </button>
@@ -213,6 +231,8 @@ function importDataset(ds) {
     
     data.readOnly = true;
 }
+
+// events //
 
 data.oninput = function(e) {
     const input = e.target.value.trim();
@@ -251,9 +271,21 @@ runBtn.onclick = async function() {
             [...document.querySelectorAll(".set")].forEach(s => {
                 s.onclick = async function() {
                     selectedDataset.textContent = `Selected Dataset: ${s.id}`;
+                    createModal(`Loading Dataset: ${s.id}...`);
                     await fetch(`./data/${s.id}`)
-                    .then(res => res.json())
+                    .then(res => {
+                        if (!res.ok) {
+                            createModal(`An error occured while loading ${s.id}`);
+                            return;
+                        } else {
+                            return res.json()
+                        }
+                    })
                     .then(data => {
+                        if (!data) {
+                            createModal("Invalid dataset");
+                            return;
+                        }
                         importDataset(data)
                         closeModal();
                         runBtn.textContent = "Run Test"
@@ -298,4 +330,52 @@ runNewBtn.onclick = function() {
     }
     
     console.log(PARAMS)*/
+}
+
+graph_menu.onclick = function() {
+    createModal(`
+        <h3>Graph Settings</h3>
+        <ul class='menu'>
+            <li>
+                <span>Y-axis zoom</span>
+                <select id='graph_yzoom'>
+                    <option value='35'>Default</option>
+                    <option value='${GRAPH_DATA.yMax}'>Fit</option>
+                    <option value='50'>50%</option>
+                    <option value='75'>75%</option>
+                    <option value='100'>100%</option>
+                </select>
+            </li>
+            <li>
+                <span>Actual Curve</span>
+                <input type="color" id="actualLabelColorPicker" value="${GRAPH_DATA.actualLabelColor}"/>
+            </li>
+            <li>
+                <span>Expected Curve</span>
+                <input type="color" id="expectedLabelColorPicker" value="${GRAPH_DATA.expectedLabelColor}"/>
+            </li>
+        </ul>
+    `);
+    
+    graph_yzoom.value = GRAPH_DATA.yZoom;
+    
+    graph_yzoom.onchange = function(e) {
+       [...svg.childNodes].forEach(s => svg.removeChild(s))
+       
+       GRAPH_DATA.yZoom = e.target.value;
+       plot(EXPECTED);
+       plot(FREQUENCY);
+    }
+    
+    actualLabelColorPicker.onchange = function(e) {
+        GRAPH_DATA.actualLabelColor = e.target.value;
+        actual_label.style.setProperty("--actual-label-color", `1.5px solid ${e.target.value}`);
+        [...svg.childNodes][1].setAttribute("stroke", e.target.value);
+    }
+    
+    expectedLabelColorPicker.onchange = function(e) {
+        GRAPH_DATA.expectedLabelColor = e.target.value;
+        expected_label.style.setProperty("--expected-label-color", `1.5px solid ${e.target.value}`);
+        [...svg.childNodes][0].setAttribute("stroke", e.target.value)
+    }
 }

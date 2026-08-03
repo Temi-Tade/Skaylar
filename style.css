@@ -1,3 +1,8 @@
+:root {
+    --actual-label-color: 1.5px solid #FF5555;
+    --expected-label-color: 1.5px solid #5555FF;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -89,12 +94,13 @@ tbody:nth-child(even) {
     background: #ccc7;
 }
 
-#graph svg {
+#graph #svg {
     margin: auto;
     display: block;
     border-left: .5px solid;
     border-bottom: .5px solid;
 }
+
 
 #result{
     padding: .5rem;
@@ -116,9 +122,22 @@ tbody:nth-child(even) {
     position: relative;
 }
 
-#graph p{
+#graph_label{
     position: absolute;
     right: .125rem;
+    display: flex;
+    align-items: center;
+}
+
+#graph_menu{
+    font-size: .5rem;
+    background: transparent;
+    color: #000;
+    padding: .15rem;
+}
+
+#graph_menu:hover, #graph_menu:focus {
+    background: #CCCC;
 }
 
 .label::before{
@@ -130,11 +149,11 @@ tbody:nth-child(even) {
 }
 
 #expected_label::before{
-    border-color: #5555FF;
+    border: var(--expected-label-color, none);
 }
 
 #actual_label::before {
-    border-color: #FF5555;
+    border: var(--actual-label-color, none);
 }
 
 #actions {
@@ -166,11 +185,11 @@ tbody:nth-child(even) {
     border-radius: .6rem;
 }
 
-#temp {
-    display: none;
+#modal h3 {
+    text-align: center;
 }
 
-ul#datalist{
+ul{
     list-style: none;
 }
 
@@ -201,4 +220,21 @@ ul#datalist{
 
 #datalist button:focus, #datalist button:hover {
     background: #CCCC;
+}
+
+.menu li {
+    padding: .5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+select {
+    border: 0;
+    padding: .25rem;
+}
+
+input[type=color] {
+    background: transparent;
+    border: 0;
 }
