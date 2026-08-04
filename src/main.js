@@ -1,3 +1,6 @@
+import handleFileUpload from './lib/fileHandler.js';
+import { createModal, closeModal, saveFile } from './lib/ui.js';
+
 const NUMBERS = [];
 const DIGITS = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 const REPS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -197,7 +200,7 @@ async function selectDataset() {
                 return res.json()
             }
         })
-        .then(data => data);
+        .then(data => data.sort());
         
         files.forEach((f,i) => {
             datasets += `
@@ -232,9 +235,13 @@ function importDataset(ds) {
     }
     
     data.readOnly = true;
+    closeModal();
+    runBtn.textContent = "Run Test";
 }
 
+////////////
 // events //
+////////////
 
 data.oninput = function(e) {
     const input = e.target.value.trim();
@@ -266,11 +273,37 @@ runBtn.onclick = async function() {
             }
         } else {
             createModal(`
-                <h3>Datasets</h3>
+                <h3>Select a Dataset</h3>
                 <ul id="datalist">
                     ${await selectDataset()}
                 </ul>
+                <p style='text-align: center; margin: .5rem auto'>or</p>
+                ${handleFileUpload()}
             `);
+            
+            if (fileInput) {
+                fileInput.onchange = function(e) {
+                    const file = e.target.files[0];
+                    if (!file.type.includes("json") && !file.name.endsWith(".json")) {
+                        alert("Please upload a JSON file.");
+                        return;
+                    }
+                    
+                    file.text()
+                    .then(res => JSON.parse(res))
+                    .then(data => {
+                        if (!data.data) {
+                            createModal(`
+                               <h3>Invalid Dataset</h3>
+                               <p>Checkout the expected Dataset JSON format on the <a href="https://github.com/Temi-Tade/Skaylar">GitHub repository</a></p>
+                            `);
+                            return;
+                        }
+                        importDataset(data);
+                        selectedDataset.textContent = `Selected Dataset:\n${data.name}`;
+                    });
+                }
+            }
             
             [...document.querySelectorAll(".set")].forEach(s => {
                 s.onclick = async function() {
@@ -282,17 +315,15 @@ runBtn.onclick = async function() {
                             createModal(`An error occured while loading ${s.id}`);
                             return;
                         } else {
-                            return res.json()
+                            return res.json();
                         }
                     })
                     .then(data => {
                         if (!data) {
-                            createModal("Invalid dataset");
+                            createModal("<h3>Invalid dataset</h3>");
                             return;
                         }
-                        importDataset(data)
-                        closeModal();
-                        runBtn.textContent = "Run Test"
+                        importDataset(data);
                     });
                 }
             })

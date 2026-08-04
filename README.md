@@ -24,15 +24,18 @@ Double-click `index.html`
 Works in Chrome, Edge, Firefox, and on mobile.
 
 ### 3. Analyze
-1.  Paste your numbers in the box or select a .json dataset. Numbers in the textbox should be delimited by commas, spaces or new lines
+1.  Input/Paste your numbers in the textbox or Click `Select Dataset` to select/upload a .json dataset. Numbers in the textbox should be delimited by commas, spaces or new lines
 2.  Click `Run Test`
 3.  View the results table and graph
-4.  Click `Run Mock Data` to try it with sample data first
 
 ## What You Get
 - **Results Table**: Expected % vs Actual % for digits 1-9 and deviations
 - **Graph**: Visual comparison to spot deviations fast
 - **Analytics**: Max deviation and Chi square value.
+
+## What you can do
+- **Customize Graph**: Change colour of expected and actual curves on the graph.
+- Save a Dataset that you manually pasted/inputted in the textbox as a .json file that you can share with other people.
 
 ---
 

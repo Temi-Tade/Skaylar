@@ -45,3 +45,5 @@ async function saveFile(textContent, name) {
     }
   }
 }
+
+export { createModal, closeModal, saveFile }

@@ -55,7 +55,7 @@ textarea{
     resize: none;
 }
 
-button{
+button, #modal label{
     border: 0;
     background: #1F2FE2;
     color: #FFF;
@@ -275,4 +275,22 @@ input[type=color] {
 
 code {
     font-family: monospace;
+}
+
+#fileInput {
+    display: none;
+}
+
+.uploader {
+    display: grid;
+    place-items: center;
+}
+
+#modal .uploader label span {
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (width >= 600px) {
+    
 }
