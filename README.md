@@ -33,10 +33,6 @@ Works in Chrome, Edge, Firefox, and on mobile.
 - **Graph**: Visual comparison to spot deviations fast
 - **Analytics**: Max deviation and Chi square value.
 
-## What you can do
-- **Customize Graph**: Change colour of expected and actual curves on the graph.
-- Save a Dataset that you manually pasted/inputted in the textbox as a .json file that you can share with other people.
-
 ---
 
 <img width="720" height="1307" alt="1001549146" src="https://github.com/user-attachments/assets/6bfd0660-b7c4-4b32-b2d4-4ee5ca07767f" />
@@ -46,6 +42,20 @@ Works in Chrome, Edge, Firefox, and on mobile.
 <img width="720" height="1425" alt="1001548580" src="https://github.com/user-attachments/assets/6b5d9fb9-662d-4cba-9daa-b14e2b1d5583" />
 
 > Fibonacci series (Follows Benford's Law)
+
+## What you can do
+- **Customize Graph**: Change colour of expected and actual curves on the graph. Also, you can scale the graph to different zoom levels.
+- **Save Datasets**: Save a Dataset that you manually pasted/inputted in the text box as a .json file that you can share with other people.
+
+---
+
+<img width="720" height="1001" alt="1001566664" src="https://github.com/user-attachments/assets/c1a5aea6-977e-4cbc-8aaf-4d9893aae499" />
+
+> Save manually-inputted data as a .json Dataset file.
+
+<img width="720" height="533" alt="1001564779" src="https://github.com/user-attachments/assets/ccc79e47-6506-4fb8-a12d-6dbbb74340a1" />
+
+> Customize curve colours on the graph and adjust zoom levels.
 
 ## Contribute to Skaylar
 Skaylar is open source and is open to contribution from developers, data scientists/analysts, forensic accountants, auditors and anyone interested in making it better.
