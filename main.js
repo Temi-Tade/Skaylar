@@ -31,6 +31,8 @@ const GRAPH_DATA = {
     yMax: undefined
 }
 
+let isManualInput;
+
 function init() {
     //NUMBERS.push(PARAMS.startingValue);
     PARAMS.currentValue = PARAMS.externalData.length > 0 ? PARAMS.externalData[0] : PARAMS.startingValue;
@@ -200,7 +202,7 @@ async function selectDataset() {
         files.forEach((f,i) => {
             datasets += `
             <li>
-                <i data-="table" width="12"></i>
+                <i data-lucide="table" width="12"></i>
                 <button class="set" id="${files[i]}">
                     ${files[i]}
                 </button>
@@ -244,11 +246,13 @@ data.oninput = function(e) {
         PARAMS.startingValue = arrayFromInput[0];
         PARAMS.externalData = arrayFromInput;
         PARAMS.growthRate = "N/A";
+        isManualInput = true;
     } else {
-        runBtn.textContent = "Run Test (Mock Data)";
+        runBtn.textContent = "Select Dataset";
         PARAMS.externalData = [];
         PARAMS.startingValue = 10;
         PARAMS.growthRate = 10;
+        isManualInput = false;
     }
 }
 
@@ -270,7 +274,7 @@ runBtn.onclick = async function() {
             
             [...document.querySelectorAll(".set")].forEach(s => {
                 s.onclick = async function() {
-                    selectedDataset.textContent = `Selected Dataset: ${s.id}`;
+                    selectedDataset.textContent = `Selected Dataset:\n${s.id}`;
                     createModal(`Loading Dataset: ${s.id}...`);
                     await fetch(`./data/${s.id}`)
                     .then(res => {
@@ -300,6 +304,12 @@ runBtn.onclick = async function() {
         runBtn.disabled = true;
         init();
         runTest();
+        
+        if (isManualInput) {
+            saveBtn.style.display = "inline-flex";
+        } else {
+            saveBtn.style.display = "none";
+        }
     } catch (e) {
         console.error(e);
     }
@@ -377,5 +387,44 @@ graph_menu.onclick = function() {
         GRAPH_DATA.expectedLabelColor = e.target.value;
         expected_label.style.setProperty("--expected-label-color", `1.5px solid ${e.target.value}`);
         [...svg.childNodes][0].setAttribute("stroke", e.target.value)
+    }
+}
+
+saveBtn.onclick = function() {
+    createModal(`
+        <h3>Save Dataset</h3>
+        <form id="saveForm" autocomplete="off">
+            <div>
+                <input type="text" placeholder="Dataset Name" id="dataset_name" required/>
+            </div>
+            
+            <div>
+                <input type="text" placeholder="Description" id="dataset_description" required/> 
+            </div>
+            
+            <div>
+                <input type="text" placeholder="Dataset Source" id="dataset_source" required/>
+            </div>
+            
+            <div>
+                <textarea rows="8" cols="40" readonly>${PARAMS.externalData.join(", ")}</textarea>
+            </div>
+            
+            <div>
+                <button type="submit">Save Dataset as JSON</button>
+            </div>
+        </form>
+    `);
+    
+    saveForm.onsubmit = function(e) {
+        e.preventDefault();
+        const SAVE_PARAMS = {
+            name: dataset_name.value.trim(),
+            description: dataset_description.value.trim(),
+            source: dataset_source.value.trim(),
+            data: PARAMS.externalData
+        };
+        
+        saveFile(JSON.stringify(SAVE_PARAMS), SAVE_PARAMS.name);
     }
 }

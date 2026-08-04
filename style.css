@@ -37,7 +37,7 @@ header{
     height: 3rem;
 }
 
-form{
+#form{
     height: calc(100% - 4rem);
     display: flex;
     flex-direction: column;
@@ -47,6 +47,7 @@ form{
 
 #selectedDataset {
     margin-bottom: .5rem;
+    text-align: center;
 }
 
 textarea{
@@ -62,6 +63,8 @@ button{
     font-size: 1rem;
     border-radius: .3rem;
     margin: .25rem;
+    display: inline-flex;
+    align-items: center;
 }
 
 #result{
@@ -72,6 +75,7 @@ button{
     width: calc(100% - .35rem);
     margin: auto;
     overflow-x: auto;
+    font-size: .9rem;
 }
 
 table {
@@ -80,6 +84,8 @@ table {
     width: 100%;
     border-collapse: collapse;
 }
+
+
 
 td, th {
     text-align: center;
@@ -138,6 +144,10 @@ tbody:nth-child(even) {
 
 #graph_menu:hover, #graph_menu:focus {
     background: #CCCC;
+}
+
+.label {
+    font-size: .85rem;
 }
 
 .label::before{
@@ -237,4 +247,32 @@ select {
 input[type=color] {
     background: transparent;
     border: 0;
+}
+
+#modal form {
+    padding: .25rem;
+}
+
+#modal form div {
+    padding: .125rem;
+    margin: 1rem auto;
+    display: grid;
+    place-items: center;
+}
+
+#modal form input {
+    width: 100%;
+    padding: .5rem;
+}
+
+#modal form textarea {
+    width: 100%;
+}
+
+#modal *:not(#modal h3) {
+    font-size: .85rem;
+}
+
+code {
+    font-family: monospace;
 }
