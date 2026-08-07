@@ -35,6 +35,9 @@ header{
     box-shadow: 0 0 2px #7777;
     background: #FFF;
     height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #form{
@@ -147,6 +150,7 @@ tbody:nth-child(even) {
 }
 
 .label {
+    display: block;
     font-size: .85rem;
 }
 
@@ -291,6 +295,53 @@ code {
     align-items: center;
 }
 
-@media screen and (width >= 600px) {
-    
+label#slider {
+    padding: 0;
+    background: transparent;
+    width: 64px;
+    height: 30px;
+    border-radius: 1rem;
+}
+
+label #key {
+    display: none;
+}
+
+#switch {
+    display: inline-block;
+    padding: 1rem;
+    background: #7777;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    position: relative;
+}
+
+#switch::before {
+    content: "";
+    width: 28px;
+    height: 28px;
+    background: #555555;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    margin-left: 1px;
+    border-radius: 50%;
+}
+
+#key:checked+#switch {
+    border: 1px solid #7777;
+    background: #FFF;
+}
+
+#key:checked+#switch::before {
+    background: #5555FF;
+    left: 32px;
+    right: 2px;
+}
+
+#version {
+    display: block;
+    text-align: center;
+    margin-top: .5rem;
 }

@@ -4,6 +4,7 @@ function createModal(content) {
         <div>
             ${content}
         </div>
+        <small id="version">v.1.4.0</small>
     `;
     
     window.onclick = function(e) {
